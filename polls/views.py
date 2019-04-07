@@ -1,3 +1,5 @@
+
+from django.core import serializers
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -5,10 +7,12 @@ from django.template import loader
 from .models import Choice, Question
 
 
+
 def index(request):
-    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    question_list = Question.objects.all()
+    question_list = serializers.serialize('json', question_list)
     context = {
-        'latest_question_list': latest_question_list,
+        'question_list': question_list,
     }
     return render(request, 'polls/index.html', context)
 
