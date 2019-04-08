@@ -1,4 +1,4 @@
-
+from django.http import JsonResponse
 from django.core import serializers
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
@@ -11,10 +11,10 @@ from .models import Choice, Question
 def index(request):
     question_list = Question.objects.all()
     question_list = serializers.serialize('json', question_list)
-    context = {
+    json_dictionary = {
         'question_list': question_list,
     }
-    return render(request, 'polls/index.html', context)
+    return JsonResponse(json_dictionary)
 
 
 def detail(request, question_id):
